@@ -294,4 +294,15 @@ var require_core = __commonJS({
 
 // main.js
 var core = require_core();
-core.info('Hello!');
+var authorizedUsersInput = core.getInput('authorized-actors').toLowerCase();
+var authorizedUsers = JSON.parse(authorizedUsersInput);
+core.info(`The authorized actors for the workflow are: 
+- ${authorizedUsers.join('\n- ')}`);
+var actor = core.getInput('actor');
+core.info(`The current actor is ${actor}`);
+var index = authorizedUsers.indexOf(actor.toLowerCase);
+if (index === -1) {
+  core.setFailed('The current actor is not authorized to trigger this workflow.');
+} else {
+  core.info('The current actor is authorized to trigger the workflow.');
+}

@@ -1,5 +1,5 @@
 {
-  "name": "custom-action-template",
+  "name": "is-actor-authorized",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
