@@ -1,0 +1,45 @@
+name: Increment Version on Merge
+on: 
+  pull_request:
+    types: [closed]
+
+jobs:
+  increment-version:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    
+    runs-on: [ubuntu-20.04]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Increment the version
+        continue-on-error: true
+        run: |
+          tag=$(git describe --tags --abbrev=0) || tag=1.0.-1
+          echo "The latest tag is: $tag"
+
+          IFS='.'
+          read -a majorminorpatch <<< "$tag"
+
+          patch=${majorminorpatch[2]}
+          let "patch=patch+1"
+          
+          newTag="${majorminorpatch[0]}.${majorminorpatch[1]}.$patch"
+          echo "The new tag is: $newTag"
+          echo "NEW_TAG=$newTag" >> $GITHUB_ENV
+          
+      - name: Push the tag
+        id: setup
+        uses: actions/github-script@v4
+        with: 
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            await github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/${{env.NEW_TAG}}`,
+              sha: context.sha
+            });
