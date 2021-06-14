@@ -7,7 +7,7 @@ core.info(`The authorized actors for the workflow are: \n- ${authorizedUsers.joi
 const actor = core.getInput('actor');
 core.info(`The current actor is ${actor}`);
 
-let index = authorizedUsers.indexOf(actor.toLowerCase);
+let index = authorizedUsers.indexOf(actor.toLowerCase());
 if (index === -1) {
   core.setFailed('The current actor is not authorized to trigger this workflow.');
 } else {
