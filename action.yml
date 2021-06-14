@@ -1,13 +1,15 @@
-name: 'Custom Action Template'
+name: 'Is Actor Authorized'
 
-description: 'Add description here'
+description: 'This action will determine if the actor who initiated the workflow is authorized to do so.'
+
 inputs:
-  input-1:
-    description: 'Add a description here'
+  actor: 
+    description: 'The actor who initiated the workflow'
     required: true
-  input-2:
-    description: 'Add a description here'
-    required: false
+  authorized-actors:
+    description: 'An array of strings containing the authorized github usernames'
+    required: true
+  
 runs:
   using: 'node12'
-  main: 'dist/index.js'
+  main: 'dist/index.js' 
