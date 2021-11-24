@@ -292,7 +292,7 @@ var require_core = __commonJS({
   }
 });
 
-// main.js
+// src/main.js
 var core = require_core();
 var authorizedUsersInput = core.getInput('authorized-actors').toLowerCase();
 var authorizedUsers = JSON.parse(authorizedUsersInput);
