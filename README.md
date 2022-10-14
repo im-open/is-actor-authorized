@@ -26,7 +26,7 @@ jobs:
   deploy-to-prod:
     runs-on: [self-hosted, ubuntu-20.04]
     steps:
-        - uses: actions/checkout@v2
+        - uses: actions/checkout@v3
 
         - name: Check if actor is authorized to deploy to prod
           uses: im-open/is-actor-authorized@v1.0.2
