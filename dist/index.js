@@ -2431,11 +2431,15 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
 
 // src/main.js
 var core = require_core();
-var authorizedUsersInput = core.getInput('authorized-actors').toLowerCase();
+var requiredArgOptions = {
+  required: true,
+  trimWhitespace: true
+};
+var authorizedUsersInput = core.getInput('authorized-actors', requiredArgOptions).toLowerCase();
 var authorizedUsers = JSON.parse(authorizedUsersInput);
 core.info(`The authorized actors for the workflow are: 
 - ${authorizedUsers.join('\n- ')}`);
-var actor = core.getInput('actor');
+var actor = core.getInput('actor', requiredArgOptions);
 core.info(`The current actor is ${actor}`);
 var index = authorizedUsers.indexOf(actor.toLowerCase());
 if (index === -1) {
