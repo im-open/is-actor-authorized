@@ -10,11 +10,10 @@ const authorizedUsersInput = core.getInput('authorized-actors', requiredArgOptio
 const authorizedUsers = JSON.parse(authorizedUsersInput);
 core.info(`The authorized actors for the workflow are: \n- ${authorizedUsers.join('\n- ')}`);
 
-const actor = core.getInput('actor', requiredArgOptions);
+const actor = core.getInput('actor', requiredArgOptions).toLowerCase();
 core.info(`The current actor is ${actor}`);
 
-let index = authorizedUsers.indexOf(actor.toLowerCase());
-if (index === -1) {
+if (authorizedUsers.includes(actor)) {
   core.setFailed('The current actor is not authorized to trigger this workflow.');
 } else {
   core.info('The current actor is authorized to trigger the workflow.');
