@@ -29,7 +29,30 @@ jobs:
         - uses: actions/checkout@v3
 
         - name: Check if actor is authorized to deploy to prod
-          uses: im-open/is-actor-authorized@v1.1.2
+          uses: im-open/is-actor-authorized@v7.99.2
+          with:
+            actor: ${{ github.actor }}
+            authorized-actors: |
+              [
+                "bob-the-builder",
+                "potato",
+                "QA-boy"
+              ]
+
+        - name: Deploy the code
+          run: |
+```
+## Example no v
+
+```yml
+jobs:
+  deploy-to-prod:
+    runs-on: [self-hosted, ubuntu-20.04]
+    steps:
+        - uses: actions/checkout@v3
+
+        - name: Check if actor is authorized to deploy to prod
+          uses: im-open/is-actor-authorized@0.1.300
           with:
             actor: ${{ github.actor }}
             authorized-actors: |
