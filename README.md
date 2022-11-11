@@ -52,7 +52,7 @@ jobs:
         - uses: actions/checkout@v3
 
         - name: Check if actor is authorized to deploy to prod
-          uses: im-open/is-actor-authorized@0.1.300
+          uses: im-open/is-actor-authorized@1.1.2
           with:
             actor: ${{ github.actor }}
             authorized-actors: |
