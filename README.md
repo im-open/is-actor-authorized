@@ -7,17 +7,17 @@ A simple action to check if an actor is authorized to trigger the workflow.
 - [Inputs](#inputs)
 - [Example](#example)
 - [Contributing](#contributing)
-  - [Recompiling](#recompiling)
+  - [Recompiling](#recompiling-manually)
   - [Incrementing the Version](#incrementing-the-version)
 - [Code of Conduct](#code-of-conduct)
 - [License](#license)
 
 ## Inputs
+
 | Parameter           | Is Required | Description                                                    |
 | ------------------- | ----------- | -------------------------------------------------------------- |
-| `actor `            | true        | The github username of the actor who triggered the workflow    |
+| `actor`            | true        | The github username of the actor who triggered the workflow    |
 | `authorized-actors` | true        | An array of strings containing the authorized github usernames |
-
 
 ## Example
 
@@ -29,7 +29,8 @@ jobs:
         - uses: actions/checkout@v3
 
         - name: Check if actor is authorized to deploy to prod
-          uses: im-open/is-actor-authorized@v1.1.2
+          # You may also reference the major or major.minor version
+          uses: im-open/is-actor-authorized@v1.1.3
           with:
             actor: ${{ github.actor }}
             authorized-actors: |
