@@ -61,45 +61,17 @@ jobs:
       # action needs to be compiled.  For composite-run-steps actions this is typically empty.
       build-command: 'npm run build'
 
-  test-action:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      #------------------------------------------
-      # ACTOR IS NOT IN LIST OF AUTHORIZED ACTORS
-      #------------------------------------------
-      - name: Use action with an actor that is not in list of authorized actors
-        if: always()
-        id: failure
-        uses: ./
-        with:
-          actor: 'pikachu12'
-          authorized-actors: |
-            [
-              "pika1",
-              "pika2",
-              "pika3"
-            ]
-
-      - name: Validate 'actor not in list' step outcome
-        if: always()
-        run: |
-          if [ "${{ steps.failure.outcome }}" != "failure" ]; then
-            echo "Expected 'failure' but got '${{ steps.failure.outcome }}'"
-            exit 1
-          else
-            echo "The step outcome was 'failure' as expected"
-          fi
-
       #--------------------------------------
       # ACTOR IS IN LIST OF AUTHORIZED ACTORS
       #--------------------------------------
-      - name: Use action with an actor in the list of authorized actors
+      - name: '-------------------------------------------------------------------------------------------------------'
+        run: echo ""
+      - name: When the actor is in the list of authorized actors
         if: always()
         id: success
         uses: ./
@@ -113,33 +85,50 @@ jobs:
               "pikachu12"
             ]
 
-      - name: Validate 'actor in list' step outcome
+      - name: Then the outcome should be success
         if: always()
-        run: |
-          if [ "${{ steps.success.outcome }}" != "success" ]; then
-            echo "Expected 'success' but got '${{ steps.success.outcome }}'"
-            exit 1
-          else
-            echo "The step outcome was 'success' as expected"
-          fi
+        run: ./test/assert-values-match.sh --name "step outcome" --expected "success" --actual "${{ steps.success.outcome }}"
+
+      #------------------------------------------
+      # ACTOR IS NOT IN LIST OF AUTHORIZED ACTORS
+      #------------------------------------------
+      - name: '-------------------------------------------------------------------------------------------------------'
+        run: echo ""
+      - name: When the actor is not in the list of authorized actors
+        if: always()
+        continue-on-error: true  # This is needed because we expect the step to fail.  It needs to "pass" in order for the test job to succeed.
+        id: failure
+        uses: ./
+        with:
+          actor: 'pikachu12'
+          authorized-actors: |
+            [
+              "pika1",
+              "pika2",
+              "pika3"
+            ]
+
+      - name: Then the outcome should be failure
+        if: always()
+        run: ./test/assert-values-match.sh --name "step outcome" --expected "failure" --actual "${{ steps.failure.outcome }}"
 
       #--------------------------------------
       # AUTHORIZED ACTORS LIST IS EMPTY
       #--------------------------------------
-      - name: Use action with an empty authorized actors list
+      - name: '-------------------------------------------------------------------------------------------------------'
+        run: echo ""
+      - name: When the authorized actors list is empty
         if: always()
+        continue-on-error: true  # This is needed because we expect the step to fail.  It needs to "pass" in order for the test job to succeed.
         id: empty
         uses: ./
         with:
           actor: 'pikachu12'
           authorized-actors: '[]'
       
-      - name: Validate 'empty authorized actors list' step outcome
+      - name: Then the outcome should be failure
         if: always()
-        run: |
-          if [ "${{ steps.failure.outcome }}" != "failure" ]; then
-            echo "Expected 'failure' but got '${{ steps.failure.outcome }}'"
-            exit 1
-          else
-            echo "The step outcome was 'failure' as expected"
-          fi
+        run: ./test/assert-values-match.sh --name "step outcome" --expected "failure" --actual "${{ steps.empty.outcome }}"
+
+      - name: '-------------------------------------------------------------------------------------------------------'
+        run: echo ""
