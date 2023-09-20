@@ -33,7 +33,7 @@ jobs:
 
         - name: Check if actor is authorized to deploy to prod
           # You may also reference the major or major.minor version
-          uses: im-open/is-actor-authorized@v1.1.3
+          uses: im-open/is-actor-authorized@v1.1.4
           with:
             actor: ${{ github.actor }}
             authorized-actors: |

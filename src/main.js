@@ -6,14 +6,14 @@ const requiredArgOptions = {
   trimWhitespace: true
 };
 
-const authorizedUsersInput = core.getInput('authorized-actors', requiredArgOptions).toLowerCase();
-const authorizedUsers = JSON.parse(authorizedUsersInput);
-core.info(`The authorized actors for the workflow are: \n- ${authorizedUsers.join('\n- ')}`);
+const authorizedActorsInput = core.getInput('authorized-actors', requiredArgOptions).toLowerCase();
+const authorizedActors = JSON.parse(authorizedActorsInput);
+core.info(`The authorized actors for the workflow are: \n- ${authorizedActors.join('\n- ')}`);
 
-const actor = core.getInput('actor', requiredArgOptions);
-core.info(`The current actor is ${actor}`);
+const actorToEvaluate = core.getInput('actor', requiredArgOptions);
+core.info(`The actor to evaluate is ${actorToEvaluate}`);
 
-let index = authorizedUsers.indexOf(actor.toLowerCase());
+const index = authorizedActors.indexOf(actorToEvaluate.toLowerCase());
 if (index === -1) {
   core.setFailed('The current actor is not authorized to trigger this workflow.');
 } else {
