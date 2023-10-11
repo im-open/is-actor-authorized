@@ -71,6 +71,7 @@ jobs:
       #--------------------------------------
       - name: '-------------------------------------------------------------------------------------------------------'
         run: echo ""
+      
       - name: When the actor is in the list of authorized actors
         if: always()
         id: success
@@ -94,6 +95,7 @@ jobs:
       #------------------------------------------
       - name: '-------------------------------------------------------------------------------------------------------'
         run: echo ""
+      
       - name: When the actor is not in the list of authorized actors
         if: always()
         continue-on-error: true  # This is needed because we expect the step to fail.  It needs to "pass" in order for the test job to succeed.
@@ -117,6 +119,7 @@ jobs:
       #--------------------------------------
       - name: '-------------------------------------------------------------------------------------------------------'
         run: echo ""
+      
       - name: When the authorized actors list is empty
         if: always()
         continue-on-error: true  # This is needed because we expect the step to fail.  It needs to "pass" in order for the test job to succeed.
