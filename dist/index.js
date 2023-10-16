@@ -2435,13 +2435,13 @@ var requiredArgOptions = {
   required: true,
   trimWhitespace: true
 };
-var authorizedUsersInput = core.getInput('authorized-actors', requiredArgOptions).toLowerCase();
-var authorizedUsers = JSON.parse(authorizedUsersInput);
+var authorizedActorsInput = core.getInput('authorized-actors', requiredArgOptions).toLowerCase();
+var authorizedActors = JSON.parse(authorizedActorsInput);
 core.info(`The authorized actors for the workflow are: 
-- ${authorizedUsers.join('\n- ')}`);
-var actor = core.getInput('actor', requiredArgOptions);
-core.info(`The current actor is ${actor}`);
-var index = authorizedUsers.indexOf(actor.toLowerCase());
+- ${authorizedActors.join('\n- ')}`);
+var actorToEvaluate = core.getInput('actor', requiredArgOptions);
+core.info(`The actor to evaluate is ${actorToEvaluate}`);
+var index = authorizedActors.indexOf(actorToEvaluate.toLowerCase());
 if (index === -1) {
   core.setFailed('The current actor is not authorized to trigger this workflow.');
 } else {

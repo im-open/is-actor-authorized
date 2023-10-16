@@ -60,3 +60,78 @@ jobs:
       # The npm script to run to build the action.  This is typically 'npm run build' if the
       # action needs to be compiled.  For composite-run-steps actions this is typically empty.
       build-command: 'npm run build'
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      #--------------------------------------
+      # ACTOR IS IN LIST OF AUTHORIZED ACTORS
+      #--------------------------------------
+      - name: '-------------------------------------------------------------------------------------------------------'
+        run: echo ""
+      
+      - name: When the actor is in the list of authorized actors
+        if: always()
+        id: success
+        uses: ./
+        with:
+          actor: 'pikachu12'
+          authorized-actors: |
+            [
+              "pika1",
+              "pika2",
+              "pika3",
+              "pikachu12"
+            ]
+
+      - name: Then the outcome should be success
+        if: always()
+        run: ./test/assert-values-match.sh --name "step outcome" --expected "success" --actual "${{ steps.success.outcome }}"
+
+      #------------------------------------------
+      # ACTOR IS NOT IN LIST OF AUTHORIZED ACTORS
+      #------------------------------------------
+      - name: '-------------------------------------------------------------------------------------------------------'
+        run: echo ""
+      
+      - name: When the actor is not in the list of authorized actors
+        if: always()
+        continue-on-error: true  # This is needed because we expect the step to fail.  It needs to "pass" in order for the test job to succeed.
+        id: failure
+        uses: ./
+        with:
+          actor: 'pikachu12'
+          authorized-actors: |
+            [
+              "pika1",
+              "pika2",
+              "pika3"
+            ]
+
+      - name: Then the outcome should be failure
+        if: always()
+        run: ./test/assert-values-match.sh --name "step outcome" --expected "failure" --actual "${{ steps.failure.outcome }}"
+
+      #--------------------------------------
+      # AUTHORIZED ACTORS LIST IS EMPTY
+      #--------------------------------------
+      - name: '-------------------------------------------------------------------------------------------------------'
+        run: echo ""
+      
+      - name: When the authorized actors list is empty
+        if: always()
+        continue-on-error: true  # This is needed because we expect the step to fail.  It needs to "pass" in order for the test job to succeed.
+        id: empty
+        uses: ./
+        with:
+          actor: 'pikachu12'
+          authorized-actors: '[]'
+      
+      - name: Then the outcome should be failure
+        if: always()
+        run: ./test/assert-values-match.sh --name "step outcome" --expected "failure" --actual "${{ steps.empty.outcome }}"
+
+      - name: '-------------------------------------------------------------------------------------------------------'
+        run: echo ""
