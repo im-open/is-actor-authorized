@@ -1,3 +1,7 @@
+# Tests
+
+Force tests to run from a fork to see what happens
+
 # Is Actor Authorized
 
 A simple action to check if an actor is authorized to trigger the workflow.
