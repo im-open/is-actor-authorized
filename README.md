@@ -30,7 +30,7 @@ jobs:
   deploy-to-prod:
     runs-on: [self-hosted, ubuntu-20.04]
     steps:
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@v4
 
         - name: Check if actor is authorized to deploy to prod
           # You may also reference the major or major.minor version

@@ -64,14 +64,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       #--------------------------------------
       # ACTOR IS IN LIST OF AUTHORIZED ACTORS
       #--------------------------------------
       - name: '-------------------------------------------------------------------------------------------------------'
         run: echo ""
-      
+
       - name: When the actor is in the list of authorized actors
         if: always()
         id: success
@@ -95,7 +95,7 @@ jobs:
       #------------------------------------------
       - name: '-------------------------------------------------------------------------------------------------------'
         run: echo ""
-      
+
       - name: When the actor is not in the list of authorized actors
         if: always()
         continue-on-error: true  # This is needed because we expect the step to fail.  It needs to "pass" in order for the test job to succeed.
@@ -119,7 +119,7 @@ jobs:
       #--------------------------------------
       - name: '-------------------------------------------------------------------------------------------------------'
         run: echo ""
-      
+
       - name: When the authorized actors list is empty
         if: always()
         continue-on-error: true  # This is needed because we expect the step to fail.  It needs to "pass" in order for the test job to succeed.
@@ -128,7 +128,7 @@ jobs:
         with:
           actor: 'pikachu12'
           authorized-actors: '[]'
-      
+
       - name: Then the outcome should be failure
         if: always()
         run: ./test/assert-values-match.sh --name "step outcome" --expected "failure" --actual "${{ steps.empty.outcome }}"
