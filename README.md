@@ -34,7 +34,7 @@ jobs:
 
         - name: Check if actor is authorized to deploy to prod
           # You may also reference the major or major.minor version
-          uses: im-open/is-actor-authorized@v1.1.4
+          uses: im-open/is-actor-authorized@v1.2.0
           with:
             actor: ${{ github.actor }}
             authorized-actors: |
@@ -72,7 +72,7 @@ This repo uses [git-version-lite] in its workflows to examine commit messages to
 
 ### Source Code Changes
 
-The files and directories that are considered source code are listed in the `files-with-code` and `dirs-with-code` arguments in both the [build-and-review-pr] and [increment-version-on-merge] workflows.  
+The files and directories that are considered source code are listed in the `files-with-code` and `dirs-with-code` arguments in both the [build-and-review-pr] and [increment-version-on-merge] workflows.
 
 If a PR contains source code changes, the README.md should be updated with the latest action version and the action should be recompiled.  The [build-and-review-pr] workflow will ensure these steps are performed when they are required.  The workflow will provide instructions for completing these steps if the PR Author does not initially complete them.
 
@@ -93,7 +93,7 @@ If changes are made to the action's [source code], the [usage examples] section 
 
 ### Tests
 
-The build and review PR workflow includes tests which are linked to a status check. That status check needs to succeed before a PR is merged to the default branch.  The tests do not need special permissions, so they should succeed whether they come from a branch or a fork.  
+The build and review PR workflow includes tests which are linked to a status check. That status check needs to succeed before a PR is merged to the default branch.  The tests do not need special permissions, so they should succeed whether they come from a branch or a fork.
 
 ## Code of Conduct
 
