@@ -28,7 +28,7 @@ A simple action to check if an actor is authorized to trigger the workflow.
 ```yml
 jobs:
   deploy-to-prod:
-    runs-on: [self-hosted, ubuntu-20.04]
+    runs-on: im-linux
     steps:
         - uses: actions/checkout@v4
 
